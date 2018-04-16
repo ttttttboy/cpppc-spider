@@ -30,7 +30,7 @@ def requestPage(curPage,keyword,url):
     r = requests.post(url,params=payload)
     return r.json()
 
-def write2CSV(dict):
+def write2CSV(filename,dict):
     fieldnames = ['id',
                   '项目名称',
                   '项目建设类型',
@@ -48,9 +48,8 @@ def write2CSV(dict):
                   '项目阶段',
                   '项目公司成立时间']
 
-    fieldnames2 = ['Column1', 'Column2', 'Column3', 'Column4']
-    with codecs.open('out.csv','w','utf_8_sig') as fp:
-        # fp.write(codecs.BOM_UTF8)
+
+    with codecs.open(filename,'w','utf_8_sig') as fp:
         csv_writer  =csv.DictWriter(fp,fieldnames=fieldnames)
         csv_writer.writeheader()
         csv_writer.writerows(dict)
@@ -63,13 +62,14 @@ def main():
 
     result_list = []
     url = 'http://www.cpppc.org:8086/pppcentral/map/getPPPList.do'
-    keyword = '安徽' #  %E5%AE%89%E5%BE%BD 安徽，  %E5%AE%BF%E5%B7%9E 宿州
+    keyword = '河北' #  %E5%AE%89%E5%BE%BD 安徽，  %E5%AE%BF%E5%B7%9E 宿州
+    filename = keyword + '.csv'
 
     curPage = 1
     totalPage = -1
     totalCount = -1
 
-    while curPage < 10000:
+    while curPage < 100000:
         j = requestPage(curPage, keyword, url)
 
         if totalCount == -1:
@@ -110,7 +110,7 @@ def main():
 
         curPage = curPage + 1
 
-    write2CSV(result_list)
+    write2CSV(filename,result_list)
 
 if __name__ == "__main__":
     main()
