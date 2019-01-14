@@ -69,7 +69,7 @@ def main():
     totalPage = -1
     totalCount = -1
 
-    while curPage < 100000:
+    while curPage < 1000000:
         j = requestPage(curPage, keyword, url)
 
         if totalCount == -1:
